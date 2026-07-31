@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Aevira Museum</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Zen+Maru+Gothic:wght@500;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- 黑幕 -->
+    <div id="fade"></div>
+
+
+    <!-- 第一幕：標題 -->
+    <section
+        id="titleScreen"
+        class="screen"
+    >
+
+        <h1 class="openingTitle">
+            Aevira
+        </h1>
+
+        <p class="openingHint">
+            click to enter
+        </p>
+
+    </section>
+
+
+    <!-- 第二幕：注意事項 -->
+    <section
+        id="noticeScreen"
+        class="screen hidden"
+    >
+
+        <div class="noticeBox">
+
+            <p>
+                人を選ぶ表現あり<br>
+                一部に刺激の強い表現（微エロ・軽度の暴力・流血など）が含まれます。<br>
+                苦手な方はご注意の上、自己責任でご覧ください。<br><br>
+
+                このサイトに掲載されている作品・設定の無断転載、無断使用、AI学習への利用は禁止しています。<br><br>
+
+                すべて創作です。実在の人物・団体・出来事とは関係ありません。
+            </p>
+
+            <p class="noticeHint">
+                click to continue
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 第三幕：博物館主選單 -->
+    <section
+        id="menuScreen"
+        class="screen hidden"
+    >
+
+        <header class="menuHeader">
+
+            <h1 class="menuTitle">
+                Aevira
+            </h1>
+
+            <p class="menuSubtitle">
+                Museum Archive
+            </p>
+
+        </header>
+
+
+        <!-- 按鈕會由 JavaScript 自動生成 -->
+        <nav
+            id="mainMenu"
+            class="mainMenu"
+            aria-label="Museum exhibits"
+        ></nav>
+
+
+        <div
+            id="unlockNotice"
+            class="unlockNotice hidden"
+            aria-live="polite"
+        ></div>
+
+
+        <button
+            id="resetButton"
+            class="resetButton"
+            type="button"
+            title="開發測試用：清除瀏覽紀錄"
+        >
+            Reset Memory
+        </button>
+
+    </section>
+
+
+    <!-- 第四幕：Felu 導覽 -->
+    <section
+        id="guideScreen"
+        class="screen hidden"
+        aria-label="Felu museum guide"
+    >
+
+        <div
+            id="guideLabel"
+            class="guideLabel"
+        >
+
+            <span class="guideRole">
+                Guide
+            </span>
+
+            <span class="guideName">
+                Felu
+            </span>
+
+        </div>
+
+
+        <div
+            id="exhibitLabel"
+            class="exhibitLabel hidden"
+        ></div>
+
+
+        <div
+            id="dialogueArea"
+            class="dialogueArea"
+        >
+
+            <p
+                id="dialogueText"
+                class="dialogueText"
+                aria-live="polite"
+            ></p>
+
+
+            <div
+                id="dialogueChoices"
+                class="dialogueChoices hidden"
+            ></div>
+
+
+            <div
+                id="dialogueNext"
+                class="dialogueNext hidden"
+                aria-hidden="true"
+            >
+                ▶
+            </div>
+
+        </div>
+
+
+        <button
+            id="guideReturnButton"
+            class="guideReturnButton hidden"
+            type="button"
+        >
+            <span class="returnArrow">▶</span>
+            <span>メインメニューへ戻る</span>
+        </button>
+
+    </section>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

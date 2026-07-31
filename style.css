@@ -1,0 +1,776 @@
+/*
+Aevira Museum
+Version 0.5
+*/
+
+
+/* ==================================================
+   基本設定
+================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: #000;
+    color: #f4f1e9;
+
+    font-family: "Kiwi Maru", serif;
+}
+
+button {
+    font: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* ==================================================
+   共用畫面
+================================================== */
+
+.screen {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+/* ==================================================
+   黑幕
+================================================== */
+
+#fade {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000;
+
+    background: #000;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.75s ease;
+}
+
+
+/* ==================================================
+   第一幕：標題
+================================================== */
+
+#titleScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0.3)
+        ),
+        url("images/91.jpeg");
+
+    cursor: pointer;
+}
+
+.openingTitle {
+    color: #fff;
+
+    font-size: clamp(4rem, 9vw, 7rem);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+
+    transform: translateY(150px);
+
+    text-shadow:
+        0 3px 5px rgba(0, 0, 0, 0.55),
+        0 0 18px rgba(0, 0, 0, 0.45);
+}
+
+.openingHint {
+    position: absolute;
+    bottom: 5%;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+
+    animation: hintBlink 2.2s ease-in-out infinite;
+}
+
+
+/* ==================================================
+   第二幕：注意事項
+================================================== */
+
+#noticeScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 24px;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0.45)
+        ),
+        url("images/91.jpeg");
+
+    cursor: pointer;
+}
+
+.noticeBox {
+    position: relative;
+
+    width: min(760px, 90vw);
+
+    padding: 34px 38px 54px;
+
+    color: #fff;
+    background: rgba(0, 0, 0, 0.68);
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 18px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.03);
+
+    backdrop-filter: blur(5px);
+}
+
+.noticeBox p {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.9;
+}
+
+.noticeHint {
+    position: absolute;
+    right: 28px;
+    bottom: 18px;
+
+    color: rgba(255, 255, 255, 0.42);
+
+    font-size: 0.72rem !important;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    animation: hintBlink 2.2s ease-in-out infinite;
+}
+
+
+/* ==================================================
+   第三幕：主選單
+================================================== */
+
+#menuScreen {
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.3),
+            rgba(0, 0, 0, 0.05)
+        ),
+        url("images/91.jpeg");
+}
+
+.menuHeader {
+    position: absolute;
+
+    top: 8%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+}
+
+.menuTitle {
+    color: #fff;
+
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+
+    -webkit-text-stroke: 2px rgba(0, 0, 0, 0.9);
+    paint-order: stroke fill;
+
+    text-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.45),
+        0 0 14px rgba(0, 0, 0, 0.35);
+}
+
+.menuSubtitle {
+    margin-top: -4px;
+
+    color: rgba(255, 255, 255, 0.58);
+
+    font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.mainMenu {
+    position: absolute;
+
+    top: 34%;
+    left: 8%;
+
+    display: flex;
+    flex-direction: column;
+
+    max-height: 56vh;
+    gap: 10px;
+
+    overflow-y: auto;
+
+    padding: 6px 30px 18px 4px;
+
+    scrollbar-width: thin;
+    scrollbar-color:
+        rgba(255, 255, 255, 0.3)
+        transparent;
+}
+
+.menuSectionTitle {
+    margin-top: 10px;
+    margin-bottom: 2px;
+    margin-left: 38px;
+
+    color: rgba(255, 255, 255, 0.42);
+
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: clamp(0.7rem, 1.3vw, 0.86rem);
+    font-weight: 500;
+
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.menuButton {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    min-width: 250px;
+
+    padding: 3px 14px 5px 0;
+
+    color: #fff;
+    background: none;
+
+    border: none;
+
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: clamp(1.45rem, 3.3vw, 2.15rem);
+    font-weight: 700;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    -webkit-text-stroke: 1.2px rgba(0, 0, 0, 0.9);
+    paint-order: stroke fill;
+
+    text-shadow:
+        0 3px 5px rgba(0, 0, 0, 0.55),
+        0 0 9px rgba(0, 0, 0, 0.4);
+
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+.menuArrow {
+    flex: 0 0 38px;
+
+    opacity: 0;
+    transform: translateX(-8px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.menuButton:hover,
+.menuButton:focus-visible {
+    color: #fffbe8;
+
+    transform: translateX(12px) scale(1.035);
+
+    text-shadow:
+        0 4px 7px rgba(0, 0, 0, 0.6),
+        0 0 14px rgba(255, 255, 255, 0.4);
+
+    outline: none;
+}
+
+.menuButton:hover .menuArrow,
+.menuButton:focus-visible .menuArrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.menuButton.newExhibit::after {
+    content: "NEW";
+
+    margin-left: 14px;
+
+    color: rgba(255, 245, 193, 0.78);
+
+    font-family: "Kiwi Maru", serif;
+    font-size: 0.58rem;
+    font-weight: 400;
+
+    letter-spacing: 0.15em;
+
+    -webkit-text-stroke: 0;
+}
+
+.unlockNotice {
+    position: absolute;
+
+    right: 6%;
+    bottom: 8%;
+
+    max-width: min(420px, 76vw);
+
+    padding: 14px 18px;
+
+    color: rgba(244, 241, 233, 0.86);
+    background: rgba(0, 0, 0, 0.58);
+
+    border-left: 1px solid rgba(244, 241, 233, 0.35);
+
+    font-size: clamp(0.8rem, 1.7vw, 1rem);
+    line-height: 1.7;
+
+    animation: unlockAppear 0.8s ease both;
+}
+
+.resetButton {
+    position: absolute;
+
+    right: 2%;
+    bottom: 2%;
+
+    padding: 6px;
+
+    color: rgba(255, 255, 255, 0.18);
+    background: none;
+
+    border: none;
+
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.resetButton:hover,
+.resetButton:focus-visible {
+    color: rgba(255, 255, 255, 0.6);
+    outline: none;
+}
+
+
+/* ==================================================
+   第四幕：導覽畫面
+================================================== */
+
+#guideScreen {
+    background:
+        radial-gradient(
+            circle at center,
+            #0b0b0b 0%,
+            #050505 60%,
+            #020202 100%
+        );
+
+    color: #f4f1e9;
+
+    cursor: pointer;
+}
+
+.guideLabel {
+    position: absolute;
+
+    top: 8%;
+    left: 7%;
+
+    display: flex;
+    flex-direction: column;
+
+    color: rgba(244, 241, 233, 0.18);
+
+    letter-spacing: 0.12em;
+
+    user-select: none;
+
+    transition:
+        color 0.4s ease,
+        text-shadow 0.4s ease;
+}
+
+.guideLabel.speaking {
+    color: rgba(244, 241, 233, 0.58);
+
+    text-shadow: 0 0 15px rgba(244, 241, 233, 0.12);
+}
+
+.guideRole {
+    font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+}
+
+.guideName {
+    margin-top: 4px;
+
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+}
+
+.exhibitLabel {
+    position: absolute;
+
+    top: 9%;
+    right: 7%;
+
+    color: rgba(244, 241, 233, 0.32);
+
+    font-size: clamp(0.68rem, 1.4vw, 0.86rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+
+    user-select: none;
+}
+
+.dialogueArea {
+    position: absolute;
+
+    left: 50%;
+    bottom: 16%;
+
+    width: min(850px, 86vw);
+    min-height: 220px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 30px 36px;
+}
+
+.dialogueText {
+    color: #f4f1e9;
+
+    font-size: clamp(1.18rem, 2.6vw, 1.68rem);
+    line-height: 2;
+
+    letter-spacing: 0.055em;
+    white-space: pre-wrap;
+
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.08);
+
+    user-select: none;
+}
+
+.dialogueNext {
+    align-self: flex-end;
+
+    margin-top: 20px;
+
+    color: rgba(244, 241, 233, 0.68);
+
+    font-size: 0.88rem;
+
+    animation: dialogueNextBlink 1.4s ease-in-out infinite;
+}
+
+
+/* ==================================================
+   對話選項
+================================================== */
+
+.dialogueChoices {
+    display: flex;
+    flex-direction: column;
+
+    width: min(620px, 100%);
+
+    margin-top: 6px;
+    gap: 10px;
+}
+
+.dialogueChoice {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+
+    width: 100%;
+
+    padding: 9px 12px;
+
+    color: rgba(244, 241, 233, 0.76);
+    background: none;
+
+    border: none;
+    border-left: 1px solid rgba(244, 241, 233, 0.18);
+
+    font-family: "Kiwi Maru", serif;
+    font-size: clamp(1rem, 2.1vw, 1.26rem);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.choiceArrow {
+    opacity: 0.45;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dialogueChoice:hover,
+.dialogueChoice:focus-visible {
+    color: #fffbe8;
+    background: rgba(255, 255, 255, 0.025);
+
+    border-left-color: rgba(255, 251, 232, 0.66);
+
+    transform: translateX(8px);
+
+    outline: none;
+}
+
+.dialogueChoice:hover .choiceArrow,
+.dialogueChoice:focus-visible .choiceArrow {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+.choiceStatus {
+    margin-left: auto;
+
+    color: rgba(244, 241, 233, 0.3);
+
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+}
+
+
+/* ==================================================
+   返回按鈕
+================================================== */
+
+.guideReturnButton {
+    position: absolute;
+
+    left: 7%;
+    bottom: 7%;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 8px 12px;
+
+    color: #f4f1e9;
+    background: none;
+
+    border: none;
+
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.returnArrow {
+    opacity: 0;
+
+    transform: translateX(-6px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.guideReturnButton:hover,
+.guideReturnButton:focus-visible {
+    color: #fffbe8;
+
+    transform: translateX(8px);
+
+    outline: none;
+}
+
+.guideReturnButton:hover .returnArrow,
+.guideReturnButton:focus-visible .returnArrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* ==================================================
+   動畫
+================================================== */
+
+@keyframes dialogueNextBlink {
+
+    0%,
+    100% {
+        opacity: 0.25;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: translateY(4px);
+    }
+
+}
+
+@keyframes hintBlink {
+
+    0%,
+    100% {
+        opacity: 0.28;
+    }
+
+    50% {
+        opacity: 0.68;
+    }
+
+}
+
+@keyframes unlockAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* ==================================================
+   手機畫面
+================================================== */
+
+@media (max-width: 600px) {
+
+    .openingTitle {
+        transform: translateY(110px);
+    }
+
+    .noticeBox {
+        padding: 24px 22px 50px;
+    }
+
+    .menuHeader {
+        top: 8%;
+    }
+
+    .mainMenu {
+        top: 31%;
+        left: 6%;
+
+        max-height: 60vh;
+
+        gap: 8px;
+    }
+
+    .menuButton {
+        min-width: 210px;
+    }
+
+    .menuSectionTitle {
+        margin-left: 34px;
+    }
+
+    .unlockNotice {
+        right: 5%;
+        bottom: 5%;
+    }
+
+    .guideLabel {
+        top: 6%;
+        left: 7%;
+    }
+
+    .exhibitLabel {
+        top: 7%;
+        right: 7%;
+    }
+
+    .dialogueArea {
+        bottom: 13%;
+
+        width: 90vw;
+        min-height: 230px;
+
+        padding: 22px 10px;
+    }
+
+    .dialogueText {
+        line-height: 1.85;
+    }
+
+    .dialogueChoice {
+        padding: 9px 8px;
+    }
+
+    .guideReturnButton {
+        left: 5%;
+        bottom: 4%;
+    }
+
+}
